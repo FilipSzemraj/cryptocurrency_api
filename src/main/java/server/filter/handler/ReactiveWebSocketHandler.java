@@ -101,7 +101,9 @@ public class ReactiveWebSocketHandler implements WebSocketHandler {
 
                         return Flux.just(parsedObject);
                     } catch (IOException e) {
-                        return Flux.empty();
+                        String errorMsg = "Error while parsing data on server: " + e.getMessage();
+                        log.error(errorMsg);
+                        return Flux.just(new ErrorMessage(errorMsg));
                     }
                 })
                 .index()
